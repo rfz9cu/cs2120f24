@@ -215,6 +215,66 @@ def mul : Nat → Nat → Nat
 | n, (Nat.succ m') => add n (mul n m')
 -- effect is to iterate addition of n to zero m times
 
+-- exponential (iterated multiplication)
+def exp : Nat → Nat → Nat
+| n, 0 => 1
+| n, (m' + 1) => n * exp n m'
+
+#eval exp 10 5
+#eval exp 2 3
+
+--substraction
+def sub' : Nat → Nat → Nat
+| n, 0 => n
+| 0, m => 0
+| (n' + 1), (m' + 1) => sub n' m'
+
+#eval sub' 5 3
+
+-- less than equal to
+def le : Nat → Nat → Bool
+| 0, m => true
+| (n' + 1), 0 => false
+| (n' + 1), (m' + 1) => le n' m'
+
+#eval le 2 5
+#eval le 10 6
+#eval le 7 7
+
+-- greater than
+def gt : Nat → Nat → Bool
+| n, m => ¬ le n m
+-- used not le to find greater than
+
+#eval gt 6 7
+
+-- equal to
+def eq : Nat → Nat → Bool
+| 0, 0 => true
+| 0, (m' + 1) => false
+| (n' + 1), 0 => false
+| (n' + 1), (m' + 1) => eq n' m'
+-- the last step is step func that
+-- declines variables until one is 0
+
+#eval eq 3 4
+#eval eq 10 10
+
+-- less than
+def lt : Nat → Nat → Bool
+| n, m => le n m && !(eq n m)
+-- calling less than equal func and not eq
+
+#eval lt 0 1
+#eval lt 1 1
+
+-- greater than equal to
+def ge : Nat → Nat → Bool
+| n, m => gt n m || eq n m
+
+#eval ge 3 2
+#eval ge 4 4
+
 /-!
 ### Binary Relations (Boolean Predicate Functions)
 
@@ -236,14 +296,14 @@ def eq_zero : Nat → Bool
 | _ => false
 
 -- are n and m equal?
-def eq : Nat → Nat → Bool
+def eq' : Nat → Nat → Bool
 | 0, 0 => true
 | (Nat.succ _), 0 => false
 | 0, (Nat.succ _) => false
 | Nat.succ n', Nat.succ m' => eq n' m'
 
 -- is n ≤ m
-def le : Nat → Nat → Bool
+def le' : Nat → Nat → Bool
 | 0, _ => true
 | n, 0 => false
 | (Nat.succ n'), (Nat.succ m') => le n' m'
@@ -253,13 +313,13 @@ Now we can express the remaining inequality relations
 in terms of the ones we've already got.
 -/
 
-def lt : Nat → Nat → Bool
+def lt' : Nat → Nat → Bool
 | n, m => le n m && !eq n m
 
-def gt : Nat → Nat → Bool
+def gt' : Nat → Nat → Bool
 | n, m => !le n m
 
-def ge : Nat → Nat → Bool
+def ge' : Nat → Nat → Bool
 | n, m => gt n m || eq n m
 
 /-!

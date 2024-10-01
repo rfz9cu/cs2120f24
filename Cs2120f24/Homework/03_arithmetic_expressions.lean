@@ -89,8 +89,7 @@ hint, yet again: See propositional logic expression language
 and semantics, understand every element of it, and use it as
 a model to complete this assignment.
 -/
-
-#eval arithEval (X + Y) interp_1    -- expect 5
+#eval arithEval (X + Y) interp_1 -- expect 5
 #eval arithEval (X * Y) interp_1    -- expect 6
 #eval arithEval (Y - [1]) interp_1  -- expect 1
 
